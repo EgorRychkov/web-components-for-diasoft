@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+    <script>
+      const onLoad = (event) => {
+        const name = event.target.dataset.name;
+
+        if (name === 'my-select') {
+          customElements.define(name, MySelect);
+
+          const webComponent = document.createElement(name);
+          document.body.appendChild(webComponent);
+        }
+
+        console.log('Веб компонент ' + name + ' загружен');
+      }
+
+      const onError = (err) => {
+        console.error('Ошибка', err)
+      }
+
+      const components = ['my-select'];
+
+      document.addEventListener('DOMContentLoaded', () => {
+        components.forEach((component) => {
+          const script = document.createElement('script');
+
+          script.src = `./${component}.js`;
+          script.dataset.name = component;
+          script.addEventListener('load', onLoad);
+          script.addEventListener('error', onError);
+
+          document.body.append(script);
+        });
+      });
+    </script>
+  </body>
+</html>
